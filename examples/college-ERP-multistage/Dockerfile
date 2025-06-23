@@ -24,7 +24,7 @@ pip install --no-cache-dir -r requirements.txt
 
 FROM gcr.io/distroless/python3
 
-COPY --from=bild /app /app
+COPY --from=build /app /app
 
 
 
