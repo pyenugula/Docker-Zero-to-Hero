@@ -2,7 +2,7 @@
 ##     Base Image 		   ##
 #####################################
 
-FROM python:3-slim AS build
+FROM ubuntu AS build
 
 WORKDIR /app
 
@@ -14,8 +14,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
 
 # Create a virtual environment and install dependencies
-RUN python3 -m venv venv1 && \
-    venv1/bin/pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 ############################################
 # HERE STARTS THE MAGIC OF MULTI STAGE BUILD
@@ -33,5 +32,5 @@ WORKDIR /app
 EXPOSE 8000
 
 # Use the entrypoint to run the application
-CMD ["/app/venv1/bin/python", "/app/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3", "/app/manage.py", "runserver", "0.0.0.0:8000"]
 
