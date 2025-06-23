@@ -22,7 +22,7 @@ RUN python3 -m venv venv1 && \
 ############################################
 
 # Use a standard Python base image with a shell
-FROM python:3.11-slim  # Choose a version that fits your needs
+FROM gcr.io/distroless/python3  # Choose a version that fits your needs
 
 # Copy the application code and virtual environment
 COPY --from=build /app /app
