@@ -14,14 +14,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
 
 # Create a virtual environment and install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python3 -m venv venv1 && \
+    venv1/bin/pip install --no-cache-dir -r requirements.txt
 
 ############################################
 # HERE STARTS THE MAGIC OF MULTI STAGE BUILD
 ############################################
 
 # Use a standard Python base image with a shell
-FROM gcr.io/distroless/python3  # Choose a version that fits your needs
+FROM gcr.io/distroless/python3:latest  # Specify the tag
 
 # Copy the application code and virtual environment
 COPY --from=build /app /app
@@ -32,5 +33,5 @@ WORKDIR /app
 EXPOSE 8000
 
 # Use the entrypoint to run the application
-CMD ["python3", "/app/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/app/venv1/bin/python", "/app/manage.py", "runserver", "0.0.0.0:8000"]
 
