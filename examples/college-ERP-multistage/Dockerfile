@@ -2,7 +2,7 @@
 ##     Base Image 		   ##
 #####################################
 
-FROM ubuntu AS build
+FROM python:3-slim AS build
 
 WORKDIR /app
 
